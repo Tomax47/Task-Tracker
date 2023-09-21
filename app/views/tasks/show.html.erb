@@ -1,0 +1,19 @@
+
+<h1><%= @task.task_title %></h1>
+<p>
+  <%= @task.task_description %>
+</p>
+<p>
+  <strong>State</strong>
+  <%= @task.state %>
+</p>
+<p>
+  <Strong>Deadline</Strong>
+  <%= @task.deadline %>
+</p>
+
+
+<%= link_to 'Edit', edit_project_task_path(@task) %>
+<%= button_to 'Delete', project_task_delete_path(@task), method: :delete %>
+
+<%= link_to 'Back', project_path(@task.project)%>

@@ -1,0 +1,27 @@
+<h1><%= @project.title %></h1>
+<p><%= @project.description %> </p>
+<p><%= @project.id %></p>
+<p><%= link_to "Edit", edit_project_path(@project) %></p>
+<p><%= button_to "Destroy", @project, method: :delete %></p>
+
+<%= link_to "Back", projects_path %>
+
+
+<!-- TASKS SECTION -->
+
+<br />
+<div class="Tasks-section">
+  <div class="Tasks-count"><h3><%= @project.tasks.count %> <strong> Tasks</strong></h3></div>
+
+  <br /><hr />
+  <section class="tasks-display">
+    <%= render @project.tasks.order(id: :desc) %>
+  </section>
+
+  <section class="new-task">
+    <h2>Add a new task</h2>
+    <div class="form">
+      <%= render partial: 'tasks/form', locals: {project: @project} %>
+    </div>
+  </section>
+</div>
