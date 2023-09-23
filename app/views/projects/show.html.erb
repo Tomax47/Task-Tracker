@@ -15,7 +15,16 @@
 
   <br /><hr />
   <section class="tasks-display">
-    <%= render @project.tasks.order(id: :desc) %>
+    <section class="done-tasks-display">
+      <h2>Done</h2>
+
+      <%= render @project.tasks.select { |task| task.state == 'Done'} %>
+    </section>
+
+    <section class="to-do-tasks-display">
+      <h2>To Do</h2>
+      <%= render @project.tasks.select { |task| task.state != 'Done'} %>
+    </section>
   </section>
 
   <section class="new-task">

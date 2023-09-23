@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
 
+  before_action :set_project, only: [:update, :show, :delete]
   def new
     #@project = set_project
     @task = Task.new
@@ -17,25 +18,32 @@ class TasksController < ApplicationController
     #@project = set_project
     @task = Task.new(task_params)
 
-    if @task.save
-      redirect_to project_tasks_path, notice: "Task has been added!"
+    if @task.deadline >= Date.today
+      if @task.save
+        redirect_to project_tasks_path, notice: "Task has been added!"
+      else
+        flash[:notice] = "Something went wrong!"
+      end
     else
-      flash[:notice] = "Something went wrong!"
+      redirect_to project_tasks_path
+      flash[:notice] = "Deadline can't be before the creation date!"
     end
+
   end
 
   def update
     @task = set_task
 
     if @task.update(task_params)
-      redirect_to @task, notice: "Task has been updated!"
+      redirect_to project_task_path(@task), notice: "Task has been updated!"
     else
       flash[:notice] = "Something went wrong!"
     end
   end
 
   def destroy
-    @task = Task.find_by(params[:id])
+    #@task = Task.find_by(params[:id]) FOR BUTTON_TO
+    @task = set_task
 
     if @task.destroy
       redirect_to project_path(@task.project), notice: "Task has been deleted!"
@@ -49,6 +57,11 @@ class TasksController < ApplicationController
   def set_task
     #@project = set_project
     @task = Task.find_by(id: params[:id])
+  end
+
+  def set_project
+    @task = set_task
+    @project = @task.project
   end
 
   def task_params

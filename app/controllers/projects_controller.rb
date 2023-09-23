@@ -1,6 +1,4 @@
 class ProjectsController < ApplicationController
-  helper_method :set_project
-
   def index
     @projects = Project.all.order(:id)
   end
@@ -43,12 +41,11 @@ class ProjectsController < ApplicationController
     redirect_to projects_path, notice: "Project has been deleted!"
   end
 
+
+  private
   def set_project
     @project = Project.find_by(id: params[:id])
   end
-
-  private
-
   def project_params
     params.require(:project).permit(:title, :description)
   end
