@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.all.order(:id)
+    @projects = Project.all.order("created_at DESC")
   end
 
   def new
